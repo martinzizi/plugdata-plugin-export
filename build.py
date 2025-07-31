@@ -45,18 +45,20 @@ for plugin in plugins_config:
     print(f"\nProcessing: {name}")
 
     author = plugin.get("author", False)
+    version = plugin.get("version", "1.0.0")
     enable_gem = plugin.get("enable_gem", False)
     enable_sfizz = plugin.get("enable_sfizz", False)
     enable_ffmpeg = plugin.get("enable_ffmpeg", False)
 
     cmake_configure = [
         "cmake",
-        "-GNinja",
+        "-GXcode",
         *cmake_compiler,
         f"-B{build_dir}",
         f"-DCUSTOM_PLUGIN_NAME={name}",
         f"-DCUSTOM_PLUGIN_PATH={zip_path}",
         f"-DCUSTOM_PLUGIN_COMPANY={author}",
+        f"-DCUSTOM_PLUGIN_VERSION={version}",
         "-DCMAKE_BUILD_TYPE=Release",
         f"-DENABLE_GEM={'1' if enable_gem else '0'}",
         f"-DENABLE_SFIZZ={'1' if enable_sfizz else '0'}",

@@ -8,5 +8,15 @@
     "enable_gem": false,
     "enable_sfizz": false,
     "enable_ffmpeg": false
+  },
+  {
+    "name": "the gusher",
+    "author": "(un)familiar.",
+    "path": "Plugins/the gusher.zip",
+    "formats": ["VST3", "AU", "LV2"],
+    "type": "fx",
+    "enable_gem": false,
+    "enable_sfizz": false,
+    "enable_ffmpeg": false
   }
 ]
