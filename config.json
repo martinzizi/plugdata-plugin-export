@@ -5,6 +5,7 @@
     "path": "Plugins/N-TILT.zip",
     "formats": ["VST3", "AU", "LV2", "CLAP", "Standalone"],
     "type": "fx",
+    "version": "1.0.0",
     "enable_gem": false,
     "enable_sfizz": false,
     "enable_ffmpeg": false
@@ -15,6 +16,7 @@
     "path": "Plugins/the gusher.zip",
     "formats": ["VST3", "AU", "LV2"],
     "type": "fx",
+    "version": "1.0.0",
     "enable_gem": false,
     "enable_sfizz": false,
     "enable_ffmpeg": false
