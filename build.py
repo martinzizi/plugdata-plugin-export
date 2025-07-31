@@ -16,9 +16,9 @@ args = parser.parse_args()
 
 system = platform.system()
 if system == "Windows":
-    cmake_compiler = "-DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl"
+    cmake_compiler = ["-DCMAKE_C_COMPILER=cl", "-DCMAKE_CXX_COMPILER=cl"]
 else:
-    cmake_compiler = ""
+    cmake_compiler = []
 
 # Load config.json
 with open("config.json") as f:
@@ -52,7 +52,7 @@ for plugin in plugins_config:
     cmake_configure = [
         "cmake",
         "-GNinja",
-        cmake_compiler,
+        *cmake_compiler,
         f"-B{build_dir}",
         f"-DCUSTOM_PLUGIN_NAME={name}",
         f"-DCUSTOM_PLUGIN_PATH={zip_path}",
