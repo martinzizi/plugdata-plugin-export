@@ -12,6 +12,18 @@ parser.add_argument(
     type=str,
     help="Optional compiler launcher (e.g., ccache, sccache)"
 )
+parser.add_argument(
+    "--generator",
+    choices=["ninja", "xcode", "visualstudio"],
+    default="ninja",
+    help="CMake generator to use: ninja (default), xcode, or visualstudio"
+)
+parser.add_argument(
+    "--configure-only",
+    action="store_true",
+    help="Only run CMake configuration, skip the build step"
+)
+
 args = parser.parse_args()
 
 system = platform.system()
@@ -19,6 +31,14 @@ if system == "Windows":
     cmake_compiler = ["-DCMAKE_C_COMPILER=cl", "-DCMAKE_CXX_COMPILER=cl"]
 else:
     cmake_compiler = []
+
+if args.generator == "xcode":
+    cmake_generator = ["-GXcode"]
+elif args.generator == "visualstudio":
+    cmake_generator = ["-GVisual Studio 17 2022", "-A x64"]
+    cmake_compiler = []
+else:
+    cmake_generator = ["-GNinja"]
 
 # Load config.json
 with open("config.json") as f:
@@ -41,7 +61,7 @@ for plugin in plugins_config:
     formats = plugin.get("formats", [])
     is_fx = plugin.get("type", "").lower() == "fx"
 
-    build_dir = builds_parent_dir / f"Build-{name}"
+    build_dir = builds_parent_dir / f"{args.generator}-{name}"
     print(f"\nProcessing: {name}")
 
     author = plugin.get("author", False)
@@ -53,6 +73,7 @@ for plugin in plugins_config:
     cmake_configure = [
         "cmake",
         "-GNinja",
+        *cmake_generator,
         *cmake_compiler,
         f"-B{build_dir}",
         f"-DCUSTOM_PLUGIN_NAME={name}",
@@ -76,53 +97,54 @@ for plugin in plugins_config:
         continue
 
     # Build all combinations of type + format
-    for fmt in formats:
-        if system != "Darwin" and fmt == "AU":
-            continue
-        target = f"plugdata_{'fx_' if is_fx else ''}{fmt}"
-        if fmt == "Standalone":
-            target = "plugdata_standalone"
+    if not args.configure_only:
+        for fmt in formats:
+            if system != "Darwin" and fmt == "AU":
+                continue
+            target = f"plugdata_{'fx_' if is_fx else ''}{fmt}"
+            if fmt == "Standalone":
+                target = "plugdata_standalone"
 
-        cmake_build = [
-            "cmake",
-            "--build", str(build_dir),
-            "--target", target,
-            "--config Release"
-        ]
-        print(f"Building target: {target}")
-        result_build = subprocess.run(cmake_build, cwd=plugdata_dir)
-        if result_build.returncode != 0:
-            print(f"Failed to build target: {target}")
-        else:
-            print(f"Successfully built: {target}")
-        format_path = os.path.join(plugins_dir, fmt)
-        target_dir = os.path.join(build_output_dir, fmt)
-
-        if fmt == "Standalone":
-            if os.path.isdir(format_path):
-                if os.path.exists(target_dir):
-                    shutil.rmtree(target_dir)
-                shutil.copytree(format_path, target_dir)
-        else:
-            extension = ""
-            if fmt == "VST3":
-                extension = ".vst3"
-            elif fmt == "AU":
-                extension = ".component"
-            elif fmt == "LV2":
-                extension = ".lv2"
-            elif fmt == "CLAP":
-                extension = ".clap"
-
-            plugin_filename = name + extension;
-            os.makedirs(target_dir, exist_ok=True)
-            src = os.path.join(format_path, plugin_filename);
-            dst = os.path.join(target_dir, plugin_filename);
-            if os.path.isdir(src):
-                if os.path.exists(dst):
-                    shutil.rmtree(dst)
-                shutil.copytree(src, dst)
+            cmake_build = [
+                "cmake",
+                "--build", str(build_dir),
+                "--target", target,
+                "--config Release"
+            ]
+            print(f"Building target: {target}")
+            result_build = subprocess.run(cmake_build, cwd=plugdata_dir)
+            if result_build.returncode != 0:
+                print(f"Failed to build target: {target}")
             else:
-                if os.path.exists(dst):
-                    os.remove(dst)
-                shutil.copy2(src, dst)
+                print(f"Successfully built: {target}")
+            format_path = os.path.join(plugins_dir, fmt)
+            target_dir = os.path.join(build_output_dir, fmt)
+
+            if fmt == "Standalone":
+                if os.path.isdir(format_path):
+                    if os.path.exists(target_dir):
+                        shutil.rmtree(target_dir)
+                    shutil.copytree(format_path, target_dir)
+            else:
+                extension = ""
+                if fmt == "VST3":
+                    extension = ".vst3"
+                elif fmt == "AU":
+                    extension = ".component"
+                elif fmt == "LV2":
+                    extension = ".lv2"
+                elif fmt == "CLAP":
+                    extension = ".clap"
+
+                plugin_filename = name + extension;
+                os.makedirs(target_dir, exist_ok=True)
+                src = os.path.join(format_path, plugin_filename);
+                dst = os.path.join(target_dir, plugin_filename);
+                if os.path.isdir(src):
+                    if os.path.exists(dst):
+                        shutil.rmtree(dst)
+                    shutil.copytree(src, dst)
+                else:
+                    if os.path.exists(dst):
+                        os.remove(dst)
+                    shutil.copy2(src, dst)
