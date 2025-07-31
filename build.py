@@ -52,7 +52,7 @@ for plugin in plugins_config:
 
     cmake_configure = [
         "cmake",
-        "-GXcode",
+        "-GNinja",
         *cmake_compiler,
         f"-B{build_dir}",
         f"-DCUSTOM_PLUGIN_NAME={name}",
