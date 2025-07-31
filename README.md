@@ -20,6 +20,7 @@ Example:
     "path": "Plugins/N-SPEC COMP LITE 2.zip",
     "formats": ["VST3", "AU", "LV2", "CLAP"],
     "type": "fx",
+    "version": "1.0.0",
     "enable_gem": false,
     "enable_sfizz": false,
     "enable_ffmpeg": false
@@ -30,6 +31,7 @@ Example:
     "path": "Plugins/N-TILT.zip",
     "formats": ["Standalone"],
     "type": "fx",
+    "version": "1.0.0",
     "enable_gem": false,
     "enable_sfizz": false,
     "enable_ffmpeg": false
