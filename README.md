@@ -56,7 +56,7 @@ Example:
 
 | Field           | Type      | Description |
 |------------------|-----------|-------------|
-| `version`        | `string`  | Plugin version, new versions will not install correctly unless you increment this. <br>_Default: "1.0.0"
+| `version`        | `string`  | Plugin version, new versions will not install correctly unless you increment this. <br>_Default: `1.0.0`_ |
 | `enable_gem`     | `boolean` | Enables experimental [GEM](https://puredata.info/downloads/Gem) support <br>_Default: `false`_ |
 | `enable_sfizz`   | `boolean` | Enables the `[sfz~]` object for SFZ sample playback. <br>_Default: `false`_ |
 | `enable_ffmpeg`  | `boolean` | Enables FFmpeg-based audio objects. <br>Recommended if your patch plays audio files. <br>_Default: `false`_ |
