@@ -41,6 +41,14 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v3
+
       - name: Build plugins
         shell: bash
         run: |
