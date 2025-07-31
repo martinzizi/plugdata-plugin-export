@@ -41,10 +41,23 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: win64
+
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v3
+
       - name: Build plugins
         shell: bash
         run: |
-          python3 ./build.py
+          python3 ./build.py --compiler-launcher ccache
           mv Build Build-Win64
 
       - name: Archive Artifacts
@@ -62,10 +75,23 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: win32
+
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: Win32
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v3
+
       - name: Build plugins
         shell: bash
         run: |
-          python3 ./build.py
+          python3 ./build.py --compiler-launcher ccache
           mv Build Build-Win32
 
       - name: Archive Artifacts
