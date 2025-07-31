@@ -17,7 +17,7 @@ args = parser.parse_args()
 # Detect platform and choose CMake generator
 system = platform.system()
 if system == "Windows":
-    cmake_generator = ["-G", "Visual Studio 17 2022"]
+    cmake_generator = ["-G", "Ninja", "-D", "CMAKE_C_COMPILER=cl", "-D", "CMAKE_CXX_COMPILER=cl"]
 else:
     cmake_generator = ["-G", "Ninja"]
 
