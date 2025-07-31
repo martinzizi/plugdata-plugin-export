@@ -14,7 +14,6 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-# Detect platform and choose CMake generator
 system = platform.system()
 if system == "Windows":
     cmake_compiler = "-DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl"
