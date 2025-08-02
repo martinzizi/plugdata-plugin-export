@@ -61,6 +61,14 @@ Example:
 | `enable_sfizz`   | `boolean` | Enables the `[sfz~]` object for SFZ sample playback. <br>_Default: `false`_ |
 | `enable_ffmpeg`  | `boolean` | Enables FFmpeg-based audio objects. <br>Recommended if your patch plays audio files. <br>_Default: `false`_ |
 
+# Running locally
+
+You can also run the build script locally instead of through github actions:
+```
+python3 build.py
+```
+You can use the `--generator` flag to set the project cmake generates. Valid values are `xcode`, `visualstudio` or `ninja` (default).
+Aditionally, you can use the `--configure-only` flag if you want to skip the build step.
 
 # Licensing note
 After building, the original patch file you used is directly accessible via the “Info” menu in the plugin. This is required to comply with the GPL license (required by both plugdata and the JUCE GPL tier), as your patch could now legally be considered as "source code" of the generated plugins.
