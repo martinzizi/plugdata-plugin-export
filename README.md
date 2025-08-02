@@ -68,7 +68,7 @@ You can also run the build script locally instead of through github actions:
 python3 build.py
 ```
 You can use the `--generator` flag to set the project cmake generates. Valid values are `xcode`, `visualstudio` or `ninja` (default).
-Aditionally, you can use the `--configure-only` if you want to skip the build step.
+Aditionally, you can use the `--configure-only` flag if you want to skip the build step.
 
 # Licensing note
 After building, the original patch file you used is directly accessible via the “Info” menu in the plugin. This is required to comply with the GPL license (required by both plugdata and the JUCE GPL tier), as your patch could now legally be considered as "source code" of the generated plugins.
