@@ -1,0 +1,50 @@
+name: Windows 64-bit Plugin Build 🚀
+
+on: [push, workflow_dispatch]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+
+jobs:
+  windows-64-build:
+    # Utilise l'environnement Windows Server 2022
+    runs-on: windows-2022
+    
+    steps:
+      - name: Checkout Code and Submodules
+        uses: actions/checkout@v4
+        with:
+          # Important: s'assurer que le sous-module 'plugdata' est cloné
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: win64
+
+      - name: Set up MSVC environment
+        # Prépare l'environnement pour le compilateur Visual Studio (MSVC)
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install Ninja
+        # Installe l'outil de construction 'Ninja', requis par le build.py/CMake
+        uses: seanmiddleditch/gha-setup-ninja@v3
+
+      - name: Build plugins
+        shell: bash
+        run: |
+          # Exécute le script de construction
+          python3 ./build.py --compiler-launcher ccache
+          # Renomme le dossier de sortie pour l'artefact
+          mv Build Build-Win64
+
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-Win64
+          path: Build-Win64
