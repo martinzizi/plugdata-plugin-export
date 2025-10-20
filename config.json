@@ -1,29 +1,5 @@
 [
   {
-    "name": "N-TILT",
-    "author": "Nasko",
-    "path": "Plugins/N-TILT.zip",
-    "formats": ["VST3"],
-    "type": "fx",
-    "version": "1.0.0",
-    "enable_gem": false,
-    "enable_sfizz": false,
-    "enable_ffmpeg": false
-  },
-
-  {
-    "name": "StandaloneCactusFlowerChords",
-    "author": "Martin",
-    "path": "Plugins/CactusFlowerChords",
-    "formats": ["VST3"],
-    "type": "instrument",
-    "version": "1.0.0",
-    "enable_gem": false,
-    "enable_sfizz": false,
-    "enable_ffmpeg": false
-  },
-
-  {
     "name": "Polyphonic",
     "author": "Martin",
     "path": "Plugins/Polyphonic",
