@@ -9,5 +9,19 @@
     "enable_gem": false,
     "enable_sfizz": false,
     "enable_ffmpeg": false
+  },
+
+  {
+    "name": "StandaloneCactusFlowerChords",
+    "author": "Martin",
+    "path": "Plugins/CactusFlowerChords",
+    "formats": ["VST3", "AU", "LV2", "CLAP", "Standalone"],
+    "type": "instrument",
+    "version": "1.0.0",
+    "enable_gem": false,
+    "enable_sfizz": false,
+    "enable_ffmpeg": false
   }
+
+  
 ]
