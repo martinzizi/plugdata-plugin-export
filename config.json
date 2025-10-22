@@ -1,8 +1,8 @@
 [
   {
-    "name": "Polyphonic",
+    "name": "CactusFlowerChord",
     "author": "Martin",
-    "path": "Plugins/Polyphonic",
+    "path": "Plugins/CactusFlowerChord",
     "formats": ["VST3"],
     "type": "instrument",
     "version": "1.0.0",
